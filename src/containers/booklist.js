@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getBooks } from '../actions/books';
+import Book from '../components/book';
 
 class BookList extends Component {
   componentDidMound() {
@@ -11,11 +12,7 @@ class BookList extends Component {
   render() {
     const bookList = this.props.books.map((book) => {
       return (
-        <div key={ book.id } className='book'>
-          <h2>{ book.title }</h2>
-          <p>{ book.description }</p>
-          <p>{ book.price }$</p>
-        </div>
+        <Book key={ book.id } book={ book } />
       );
     })
 

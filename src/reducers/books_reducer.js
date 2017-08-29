@@ -18,10 +18,11 @@ let books = [
 function booksReducer(state={ books }, action) {
   switch(action.type) {
     case GET_BOOKS:
-      return { books: [...state.books, ...action.payload] };
+      return { books: state.books };
       break;
     case POST_BOOK:
-      return { books: [...state.books, ...action.payload] };
+      console.log(action.payload);
+      return { books: [...state.books, action.payload] };
       break;
     case UPDATE_BOOK:
       const currentBookToUpdate = [...state.books];
