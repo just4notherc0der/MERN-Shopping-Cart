@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from '../actions/index';
+import { ADD_TO_CART } from '../actions/cart';
 
 function cartReducer(state={ cart: [] }, action) {
   switch(action.type) {

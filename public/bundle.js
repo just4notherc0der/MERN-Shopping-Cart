@@ -24853,6 +24853,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(197);
 
+var _redux = __webpack_require__(88);
+
+var _books = __webpack_require__(235);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24871,16 +24875,32 @@ var BookList = function (_Component) {
   }
 
   _createClass(BookList, [{
+    key: 'componentDidMound',
+    value: function componentDidMound() {
+      this.props.getBooks();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var bookList = this.props.books.map(function (book) {
         return _react2.default.createElement(
           'div',
-          { key: book.id, 'class': 'book' },
+          { key: book.id, className: 'book' },
           _react2.default.createElement(
             'h2',
             null,
             book.title
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            book.description
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            book.price,
+            '$'
           )
         );
       });
@@ -24900,7 +24920,13 @@ function mapStateToProps(state) {
   return { books: state.books.books };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(BookList);
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    getBooks: _books.getBooks
+  }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(BookList);
 
 /***/ }),
 /* 229 */,
@@ -24924,45 +24950,52 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _index = __webpack_require__(233);
+var _books = __webpack_require__(235);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var books = [{
+  id: 1,
+  title: 'Book One',
+  description: 'Description of book one',
+  price: 99.99
+}, {
+  id: 2,
+  title: 'Book Two',
+  description: 'Description of book two',
+  price: 55.99
+}];
+
 function booksReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [] };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: books };
   var action = arguments[1];
 
   switch (action.type) {
-    case _index.POST_BOOK:
+    case _books.GET_BOOKS:
       return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
       break;
-    case _index.DELETE_BOOK:
-      // create a copy of current array of books
-      var currentBookToDelete = [].concat(_toConsumableArray(state.books));
-      // determine the index of the book that is going to be deleted
-      var deleteIndex = currentBookToDelete.findIndex(function (book) {
-        return book.id === action.payload.id;
-      });
-      // use slice to remove the book
-      return {
-        books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, deleteIndex)), _toConsumableArray(currentBookToDelete.slice(deleteIndex + 1)))
-      };
+    case _books.POST_BOOK:
+      return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
       break;
-    case _index.UPDATE_BOOK:
-      // create a copy of current array of books
+    case _books.UPDATE_BOOK:
       var currentBookToUpdate = [].concat(_toConsumableArray(state.books));
-      // determine the index of the book that is going to be deleted
       var updateIndex = currentBookToDelete.findIndex(function (book) {
         return book.id === action.payload.id;
       });
-      // create a new book object with the new values and with the same array
-      // index of the item we want to replace. Use spread or concat
       var newBookToUpdate = _extends({}, currentBookToUpdate[updateIndex], {
         title: action.payload.title
-        // use slice to remove book at the specified index, replace with the new
-        // object and concatenate with the rest of items in the array
-      });return {
+      });
+      return {
         books: [].concat(_toConsumableArray(currentBookToUpdate.slice(0, updateIndex)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(updateIndex + 1)))
+      };
+      break;
+    case _books.DELETE_BOOK:
+      var currentBookToDelete = [].concat(_toConsumableArray(state.books));
+      var deleteIndex = currentBookToDelete.findIndex(function (book) {
+        return book.id === action.payload.id;
+      });
+      return {
+        books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, deleteIndex)), _toConsumableArray(currentBookToDelete.slice(deleteIndex + 1)))
       };
       break;
     default:
@@ -24983,7 +25016,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = __webpack_require__(233);
+var _cart = __webpack_require__(234);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -24992,7 +25025,7 @@ function cartReducer() {
   var action = arguments[1];
 
   switch (action.type) {
-    case _index.ADD_TO_CART:
+    case _cart.ADD_TO_CART:
       return {
         cart: [].concat(_toConsumableArray(state.cart), _toConsumableArray(action.payload))
       };
@@ -25005,7 +25038,8 @@ function cartReducer() {
 exports.default = cartReducer;
 
 /***/ }),
-/* 233 */
+/* 233 */,
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25014,10 +25048,53 @@ exports.default = cartReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var POST_BOOK = exports.POST_BOOK = 'POST_BOOK';
-var DELETE_BOOK = exports.DELETE_BOOK = 'DELETE_BOOK';
-var UPDATE_BOOK = exports.UPDATE_BOOK = 'UPDATE_BOOK';
 var ADD_TO_CART = exports.ADD_TO_CART = 'ADD_TO_CART';
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getBooks = getBooks;
+exports.postBook = postBook;
+exports.updateBook = updateBook;
+exports.deleteBook = deleteBook;
+var GET_BOOKS = exports.GET_BOOKS = 'GET_BOOKS';
+var POST_BOOK = exports.POST_BOOK = 'POST_BOOK';
+var UPDATE_BOOK = exports.UPDATE_BOOK = 'UPDATE_BOOK';
+var DELETE_BOOK = exports.DELETE_BOOK = 'DELETE_BOOK';
+
+function getBooks() {
+  return {
+    type: GET_BOOKS
+  };
+}
+
+function postBook(book) {
+  return {
+    type: POST_BOOK,
+    payload: book
+  };
+}
+
+function updateBook(book) {
+  return {
+    type: UPDATE_BOOK,
+    payload: book
+  };
+}
+
+function deleteBook(id) {
+  return {
+    type: DELETE_BOOK,
+    payload: id
+  };
+}
 
 /***/ })
 /******/ ]);
