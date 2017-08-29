@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import BookList from './components/pages/booklist';
+import BookList from './pages/booklist';
 
 export default class App extends Component {
   render() {
