@@ -2,13 +2,13 @@ import { GET_BOOKS, POST_BOOK, UPDATE_BOOK, DELETE_BOOK } from '../actions/books
 
 let books = [
   {
-    id: 1,
+    _id: 1,
     title: 'Book One',
     description: 'Description of book one',
     price: 99.99
   },
   {
-    id: 2,
+    _id: 2,
     title: 'Book Two',
     description: 'Description of book two',
     price: 55.99
@@ -28,7 +28,7 @@ function booksReducer(state={ books }, action) {
       const currentBookToUpdate = [...state.books];
       const updateIndex = currentBookToDelete.findIndex(
         function(book) {
-          return book.id === action.payload.id;
+          return book._id === action.payload._id;
         }
       );
       const newBookToUpdate = {
@@ -47,7 +47,7 @@ function booksReducer(state={ books }, action) {
       const currentBookToDelete = [...state.books];
       const deleteIndex = currentBookToDelete.findIndex(
         function(book) {
-          return book.id === action.payload.id;
+          return book._id === action.payload._id;
         }
       );
       return {

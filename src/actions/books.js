@@ -26,6 +26,6 @@ export function updateBook(book) {
 export function deleteBook(id) {
     return {
       type: DELETE_BOOK,
-      payload: id
+      payload:id
     }
 }
