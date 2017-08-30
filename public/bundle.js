@@ -24820,6 +24820,10 @@ var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _navbar = __webpack_require__(237);
+
+var _navbar2 = _interopRequireDefault(_navbar);
+
 var _booklist = __webpack_require__(228);
 
 var _booklist2 = _interopRequireDefault(_booklist);
@@ -24855,6 +24859,7 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'container-fluid' },
+        _react2.default.createElement(_navbar2.default, null),
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -25448,6 +25453,72 @@ function mapDispatchToProps(dispatch) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Book);
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(14);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Navbar = function Navbar(props) {
+  return _react2.default.createElement(
+    'nav',
+    { className: 'navbar' },
+    _react2.default.createElement(
+      'ul',
+      { className: 'navbar-links' },
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: '#' },
+          'about'
+        )
+      ),
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: '#' },
+          'contact'
+        )
+      ),
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: '#' },
+          'cart'
+        )
+      ),
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: '#' },
+          'admin'
+        )
+      )
+    )
+  );
+};
+
+exports.default = Navbar;
 
 /***/ })
 /******/ ]);
