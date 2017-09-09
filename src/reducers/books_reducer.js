@@ -1,29 +1,17 @@
-import { GET_BOOKS, POST_BOOK, UPDATE_BOOK, DELETE_BOOK } from '../actions/books';
+import { GET_BOOKS, POST_BOOK, UPDATE_BOOK, DELETE_BOOK, GET_BOOKS_REJECTED, POST_BOOK_REJECTED, DELETE_BOOK_REJECTED } from '../actions/books';
 
-let books = [
-  {
-    _id: 1,
-    title: 'Book One',
-    description: 'Description of book one',
-    price: 99.99
-  },
-  {
-    _id: 2,
-    title: 'Book Two',
-    description: 'Description of book two',
-    price: 55.99
-  }
-]
 
-function booksReducer(state={ books }, action) {
+function booksReducer(state={ books: [] }, action) {
   switch(action.type) {
     case GET_BOOKS:
-      return { books: state.books };
+      return { ...state, books: [...action.payload] };
       break;
     case POST_BOOK:
       console.log(action.payload);
       return { books: [...state.books, action.payload] };
       break;
+    case POST_BOOK_REJECTED:
+      return action.payload;
     case UPDATE_BOOK:
       const currentBookToUpdate = [...state.books];
       const updateIndex = currentBookToDelete.findIndex(

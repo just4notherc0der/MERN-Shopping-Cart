@@ -12,7 +12,7 @@ class BookForm extends Component {
   onSubmit(e) {
     e.preventDefault();
     const book = {
-      _id: this.refs._id.value,
+      id: this.refs.id.value,
       title: this.refs.title.value,
       description: this.refs.description.value,
       price: this.refs.price.value
@@ -26,7 +26,7 @@ class BookForm extends Component {
         <input
           type='text'
           placeholder='ID'
-          ref='_id'/>
+          ref='id'/>
         <input
           type='text'
           placeholder='Title'

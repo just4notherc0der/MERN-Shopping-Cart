@@ -5,7 +5,8 @@ import { getBooks } from '../actions/books';
 import Book from '../containers/book';
 
 class BookList extends Component {
-  componentDidMound() {
+  componentDidMount() {
+    console.log('Should get em');
     this.props.getBooks();
   }
 
