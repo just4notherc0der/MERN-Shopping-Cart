@@ -2,11 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
+var httpProxy = require('http-proxy');
 
 var app = express();
 
@@ -20,9 +16,6 @@ Book = require('./models/book');
 
 // common middleware(body-parser, static files, cookies)
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // catch all routes
@@ -30,39 +23,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
-// get books
-app.get('/books', (req, res) => {
-  Book.find((err, books) => {
-    if(err) {
-      console.log('ERORCHINA');
-      throw err;
-    }
-    res.json(books);
-  })
+// proxy
+const apiProxy = httpProxy.createProxyServer({
+  target: 'http://localhost:3001'
 });
+app.use('/api', function(req, res) {
+  apiProxy.web(req, res);
+})
 
-// post books
-app.post('/books', (req, res) => {
-  var book = req.body;
-  Book.create(book, (err, books) => {
-    if(err) {
-      throw err;
-    }
-    res.json(books);
-  })
-});
-
-// delete books
-app.delete('books/:id', (req, res) => {
-  var query = { _id: req.params._id };
-
-  Books.remove(query, (err, books) => {
-    if(err) {
-      throw err;
-    }
-    res.json(books);
-  })
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

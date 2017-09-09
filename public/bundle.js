@@ -7108,7 +7108,7 @@ var DELETE_BOOK_REJECTED = exports.DELETE_BOOK_REJECTED = 'DELETE_BOOK_REJECTED'
 
 function getBooks() {
   return function (dispatch) {
-    _axios2.default.get('/books').then(function (res) {
+    _axios2.default.get('/api/books').then(function (res) {
       console.log('GETTING BOOKSS!');
       console.log(res.data);
       dispatch({
@@ -7126,7 +7126,7 @@ function getBooks() {
 
 function postBook(book) {
   return function (dispatch) {
-    _axios2.default.post('/books', book).then(function (res) {
+    _axios2.default.post('/api/books', book).then(function (res) {
       dispatch({ type: POST_BOOK, payload: res.data });
     }).catch(function (err) {
       dispatch({
@@ -7146,7 +7146,7 @@ function updateBook(book) {
 
 function deleteBook(id) {
   return function (dispatch) {
-    _axios2.default.delete('/books/' + id).then(function (res) {
+    _axios2.default.delete('/api/books/' + id).then(function (res) {
       dispatch({
         type: DELETE_BOOK,
         payload: id

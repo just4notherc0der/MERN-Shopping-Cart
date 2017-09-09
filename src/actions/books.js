@@ -10,7 +10,7 @@ export const DELETE_BOOK_REJECTED = 'DELETE_BOOK_REJECTED';
 
 export function getBooks() {
     return function(dispatch) {
-      axios.get('/books')
+      axios.get('/api/books')
         .then(function(res) {
           console.log('GETTING BOOKSS!');
           console.log(res.data);
@@ -30,7 +30,7 @@ export function getBooks() {
 
 export function postBook(book) {
     return function(dispatch) {
-      axios.post('/books', book)
+      axios.post('/api/books', book)
         .then(function(res) {
           dispatch({ type: POST_BOOK, payload: res.data });
         })
@@ -52,7 +52,7 @@ export function updateBook(book) {
 
 export function deleteBook(id) {
     return function(dispatch) {
-      axios.delete('/books/'+id)
+      axios.delete('/api/books/'+id)
         .then(function(res) {
           dispatch({
             type: DELETE_BOOK,
